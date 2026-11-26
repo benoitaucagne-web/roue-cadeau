@@ -6,7 +6,6 @@
 <title>La Grande Roue des Cadeaux</title>
 
 <style>
-
 body{
     font-family: Arial, sans-serif;
     text-align:center;
@@ -64,20 +63,21 @@ button:hover{
     font-size:32px;
     font-weight:bold;
     color:#2e7d32;
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.5;
 }
-
 </style>
 </head>
+
 <body>
 
 <h1>🎁 GRANDE ROUE DES CADEAUX 🎁</h1>
 
 <div id="wheel-container">
-
     <div id="pointer"></div>
-
     <canvas id="wheel" width="800" height="800"></canvas>
-
 </div>
 
 <button onclick="spinWheel()">
@@ -90,10 +90,10 @@ button:hover{
 
 const prizes = [
 "1 Croisière autour du monde 🚢",
-"10 millions d'euros 💰",
-"1 Yatch de luxe 🛥️",
-"1 Villa sur la Côte d'Azur 🏖️",
 "Jet privé Paris-Montpellier illimité ✈️",
+"1 Villa sur la Côte d'Azur 🏖️",
+"1 Yacht de luxe 🛥️",
+"1 Château de prestige 🏰",
 "1 Bébé Olivier en pot 🫒"
 ];
 
@@ -128,7 +128,6 @@ function drawWheel(){
         ctx.fill();
 
         ctx.save();
-
         ctx.translate(center, center);
         ctx.rotate(angle + arc / 2);
 
@@ -168,22 +167,30 @@ function spinWheel(){
         stopAngle +
         180;
 
-    wheel.style.transform =
-        `rotate(${rotation}deg)`;
+    wheel.style.transform = `rotate(${rotation}deg)`;
 
     setTimeout(() => {
 
-        document.getElementById("result").innerHTML =
-        `
+        document.getElementById("result").innerHTML = `
         🎉 FÉLICITATIONS 🎉
         <br><br>
         Après tirage officiel de la Grande Roue des Cadeaux...
         <br><br>
         🫒 VOUS AVEZ GAGNÉ :
         <br><br>
+
         <span style="font-size:40px">
         UN MAGNIFIQUE BÉBÉ OLIVIER EN POT
         </span>
+
+        <br><br>
+
+        Vous devrez en prendre soin jusqu'à le planter dans votre jardin à votre retour dans le sud et un jour trinquer avec la personne qui vous a offert ce cadeau à l'ombre de cet olivier.
+
+        <br><br>
+
+        📱 Envoyez-lui votre adresse par SMS pour recevoir votre olivier.
+
         `;
 
     }, 8000);
