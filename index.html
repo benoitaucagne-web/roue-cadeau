@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Grande Roue des Cadeaux</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    margin:0;
+    padding:20px;
+    background:linear-gradient(135deg,#f8f9fa,#e9ecef);
+}
+
+h1{
+    color:#1b5e20;
+}
+
+#wheel-container{
+    position:relative;
+    width:800px;
+    margin:auto;
+}
+
+#pointer{
+    width:0;
+    height:0;
+    border-left:30px solid transparent;
+    border-right:30px solid transparent;
+    border-top:60px solid #d62828;
+    margin:auto;
+    margin-bottom:-15px;
+    position:relative;
+    z-index:10;
+}
+
+#wheel{
+    border-radius:50%;
+    border:10px solid #333;
+    box-shadow:0 0 30px rgba(0,0,0,0.25);
+    transition:transform 8s cubic-bezier(0.17,0.67,0.15,1);
+}
+
+button{
+    margin-top:30px;
+    padding:18px 35px;
+    font-size:22px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+#result{
+    margin-top:40px;
+    font-size:32px;
+    font-weight:bold;
+    color:#2e7d32;
+}
+
+</style>
+</head>
+<body>
+
+<h1>🎁 GRANDE ROUE DES CADEAUX 🎁</h1>
+
+<div id="wheel-container">
+
+    <div id="pointer"></div>
+
+    <canvas id="wheel" width="800" height="800"></canvas>
+
+</div>
+
+<button onclick="spinWheel()">
+🎉 Lancer la roue
+</button>
+
+<div id="result"></div>
+
+<script>
+
+const prizes = [
+"1 Croisière autour du monde 🚢",
+"10 millions d'euros 💰",
+"1 Yatch de luxe 🛥️",
+"1 Villa sur la Côte d'Azur 🏖️",
+"Jet privé Paris-Montpellier illimité ✈️",
+"1 Bébé Olivier en pot 🫒"
+];
+
+const colors = [
+"#ff6b6b",
+"#4dabf7",
+"#be4bdb",
+"#ffd43b",
+"#15aabf",
+"#51cf66"
+];
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const center = 400;
+const radius = 390;
+const arc = (2 * Math.PI) / prizes.length;
+
+function drawWheel(){
+
+    for(let i = 0; i < prizes.length; i++){
+
+        const angle = i * arc;
+
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, angle, angle + arc);
+        ctx.closePath();
+
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+
+        ctx.save();
+
+        ctx.translate(center, center);
+        ctx.rotate(angle + arc / 2);
+
+        ctx.fillStyle = "white";
+        ctx.font = "bold 18px Arial";
+        ctx.textAlign = "right";
+
+        ctx.fillText(prizes[i], radius - 30, 5);
+
+        ctx.restore();
+    }
+}
+
+drawWheel();
+
+let played = false;
+
+function spinWheel(){
+
+    if(played) return;
+
+    played = true;
+
+    const wheel = document.getElementById("wheel");
+
+    const oliveIndex = 5;
+    const segmentAngle = 360 / prizes.length;
+
+    const stopAngle =
+        360 -
+        (oliveIndex * segmentAngle) -
+        (segmentAngle / 2) +
+        90;
+
+    const rotation =
+        (8 * 360) +
+        stopAngle +
+        180;
+
+    wheel.style.transform =
+        `rotate(${rotation}deg)`;
+
+    setTimeout(() => {
+
+        document.getElementById("result").innerHTML =
+        `
+        🎉 FÉLICITATIONS 🎉
+        <br><br>
+        Après tirage officiel de la Grande Roue des Cadeaux...
+        <br><br>
+        🫒 VOUS AVEZ GAGNÉ :
+        <br><br>
+        <span style="font-size:40px">
+        UN MAGNIFIQUE BÉBÉ OLIVIER EN POT
+        </span>
+        `;
+
+    }, 8000);
+}
+
+</script>
+
+</body>
+</html>
